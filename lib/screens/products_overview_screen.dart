@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/screens/cart_screen.dart';
+import 'package:shop/widgets/app_drawer.dart';
 
 // import '../providers/product.dart';
 // import '../widgets/productItem.dart';
@@ -47,12 +48,12 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             icon: Icon(Icons.more_vert),
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Text('Only Favorites'),
                 value: FilterOptions.Favorites,
+                child: Text('Only Favorites'),
               ),
               PopupMenuItem(
-                child: Text('Show All'),
                 value: FilterOptions.All,
+                child: Text('Show All'),
               ),
             ],
           ),
@@ -67,7 +68,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ),          )
         ],
       ),
+      drawer: AppDrawer(),
       body: ProductsGrid(_showOnlyFavorites),
     );
   }
 }
+  
