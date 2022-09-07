@@ -10,7 +10,7 @@ class ProductItem extends StatelessWidget {
   // final String id;
   // final String title;
   // final String imageUrl;
-  // const ProductItem(this.id, this.title, this.imageUrl, {Key? key})
+  // const ProductItem(this.id,this.title, this.imageUrl, {Key? key})
   //     : super(key: key);
 
   @override
@@ -36,7 +36,8 @@ class ProductItem extends StatelessWidget {
           leading: Consumer<Product>(
             builder: (context, product, child) => IconButton(
               color: secondaryColor,
-              icon: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border ),
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
               onPressed: () {
                 product.toggleFavoriteStatus();
               },
@@ -58,6 +59,14 @@ class ProductItem extends StatelessWidget {
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
               cart.addItems(product.id, product.price, product.title);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Added Item to Cart!'),
+                action: SnackBarAction(
+                  label: 'UNDO',
+                  onPressed: () => cart.removeItem(product.id),
+                ),
+              ));
             },
           ),
         ),
