@@ -16,6 +16,7 @@ class CartItem {
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};
+  
   Map<String, CartItem> get items {
     return {..._items};
   }
@@ -26,7 +27,9 @@ class Cart with ChangeNotifier {
 
   double get totalAmount {
     var total = 0.0;
-    _items.forEach((key, cartItem) {total += cartItem.price * cartItem.quantity;});
+    _items.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
     return total;
   }
 
@@ -55,8 +58,28 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(productId) {
+  void removeItem(String productId) {
     _items.remove(productId);
+    notifyListeners();
+  }
+
+  void removeSingleItem(String productId) {
+    if (!_items.containsKey(productId)) return;
+
+    final itemQuantity = _items[productId]?.quantity as int;
+    if ((itemQuantity) > 1) {
+      _items.update(
+        productId,
+        (existingCartItem) => CartItem(
+          id: existingCartItem.id,
+          title: existingCartItem.title,
+          price: existingCartItem.price,
+          quantity: existingCartItem.quantity - 1,
+        ),
+      );
+    } else {
+      items.remove(productId);
+    }
     notifyListeners();
   }
 
